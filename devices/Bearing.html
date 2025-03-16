@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor Analysis</title>
+    <link rel="stylesheet" href="../home.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+     <!-- Navigation Bar -->
+     <div class="navbar">
+        <a href="../index.html">Home</a>
+        <div class="dropdown">
+            <a href="#">Select Device ▼</a>
+            <div class="dropdown-content">
+                <a href="/devices/motor.html">Motor</a>
+                <a  href="Bearing.html">Bearing</a>
+                <a  href="Gear.html">Gear Box</a>
+                <a  href="Pully.html">Pully</a>
+                <a href="Belt.html">Belt</a>
+            </div>
+        </div>
+    </div>
+    <!-- Device Data Section -->
+    <div class="container">
+
+        <div class="button-group">
+            <button class="property" onclick="plotRawData()">Plot Raw Data</button>
+            <button class="property" onclick="plotFFT()">Plot FFT</button>
+            <button class="property" onclick="fetchModbusData()">Fetch Data from Modbus</button>
+            <button class="property" onclick="stopFetching()">Stop Fetching</button>
+            <button class="property" onclick="zoomInRaw()">Zoom In Raw Data</button>
+            <button class="property" onclick="zoomOutRaw()">Zoom Out Raw Data</button>
+            <button class="property" onclick="zoomInFFT()">Zoom In FFT</button>
+            <button class="property" onclick="zoomOutFFT()">Zoom Out FFT</button>
+            <button class="property" onclick="applyAI()">AI Technique</button>
+        </div>
+
+        <canvas id="dataChart"></canvas>
+    </div>
+
+    <script src="../scripts/motor.js"></script>
+
+</body>
+</html>

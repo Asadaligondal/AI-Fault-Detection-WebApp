@@ -1,0 +1,398 @@
+/* General Styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+/* Background Image with Opacity */
+body::before {
+    content: "";
+    position: fixed; /* Use fixed to ensure full-page coverage */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/images/space-4984262_1920.jpg') no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.9; /* Adjust transparency */
+    z-index: -1;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(51, 51, 51, 0.9); /* Slightly transparent */
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Adjust spacing between Home and dropdown */
+    width: auto;
+    padding: 20px;
+
+}
+
+/* Navbar Links */
+.navbar a {
+    color: white;
+    padding: 12px;
+    text-decoration: none;
+}
+.navbar a:hover {
+    background: #575757;
+}
+/* Dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    min-width: auto;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 20;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Dropdown Links */
+.dropdown-content a {
+    color: black;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background: #8d6161;
+}
+/*  #####################################  Motor page CSS*/
+.button-group {
+    display: flex;
+justify-content: center;
+align-items: center;
+padding: 2px;
+}
+.property{
+    color: white;
+    padding: 20px;
+    border: none;
+    border-radius: 10px;
+    margin: 4px;
+    font-size: 13px;
+    
+}
+.property :hover{
+    color: black;
+}
+.button-group :hover{
+    background-color: rgb(78, 111, 173);
+}
+.button-group button{
+    background-color: rgb(41, 39, 39);
+}
+
+.addDeviceBtn{
+
+    padding: 10px;
+    background-color: rgb(44, 42, 39);
+    color: white;
+    border-radius: 8px;
+}
+.addDeviceBtn:hover{
+    background-color: #575757;
+}
+
+/* Modal Background */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+
+/* Modal Content */
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Close Button */
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Input Field */
+input {
+    width: 90%;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Button */
+button {
+    padding: 5px 10px;
+    font-size: 14px;
+    width: auto;
+}
+
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+button#removeDeviceBtn {
+    background: #2c2a27;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;/* Remove Device Modal Styling */}
+button#removeDeviceBtn:hover{
+    background-color: #575757;
+}
+
+#removeDeviceModal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6); /* Darker overlay for focus */
+    z-index: 1000;
+}
+
+/* Modal Content */
+#removeDeviceModal .modal-content {
+    position: relative;
+    width: 400px;
+    padding: 25px;
+    background: #222; /* Dark theme to match navbar */
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Title */
+#removeDeviceModal h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #f8f8f8;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 8px;
+}
+
+/* Device List */
+#deviceList {
+    list-style: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#deviceList li {
+    padding: 10px;
+    margin: 5px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#deviceList li:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+#deviceList li.selected {
+    background: #8d6161;
+}
+
+/* Remove Button */
+#confirmRemoveDevice {
+    background: #8d6161;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+#confirmRemoveDevice:hover {
+    background: #a85050;
+}
+
+/* Close Button */
+#closeRemoveModal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    cursor: pointer;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+#closeRemoveModal:hover {
+    color: #ff4d4d;
+}
+
+/* Smooth Fade-in Effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Sensor Data Block Styling */
+.sensor-container {
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;  /* 👈 Changed to white */
+    color: black;  /* 👈 Ensuring text is visible */
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 600px; /* Increased width for better spacing */
+}
+
+/* FFT Graph Canvas */
+#sensorData {
+    display: none; /* Initially hidden */
+    margin-top: 20px;
+}
+
+/* Sensor Data Display */
+.sensor-data {
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.05); /* Slight gray for contrast */
+    border-radius: 8px;
+    text-align: left;
+}
+
+/* FFT Chart Styling */
+#fftChart {
+    background: white; /* 👈 White background */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* View Data Button */
+#viewDataBtn {
+    padding: 10px;
+    background: rgb(78, 111, 173);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#viewDataBtn:hover {
+    background: rgb(98, 131, 202);
+}
+#sensorData {
+    width: 600px;
+    height: 400px;
+    margin: auto;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.zoom-controls {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.zoom-btn {
+    padding: 8px;
+    background: #4e6fad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 3px;
+}
+
+.zoom-btn:hover {
+    background: #627dc2;
+}
+/* Fault Panel Styles */
+.fault-panel {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 200px;
+    position: absolute;
+    right: 20px;
+    top: 50px;
+    text-align: center;
+}
+
+
+
+.fault-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.fault-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: green; /* Default healthy */
+    transition: background 0.5s ease-in-out;
+}
+
+/* Blinking animation */
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}

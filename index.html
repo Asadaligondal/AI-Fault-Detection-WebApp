@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Machine Condition Monitoring</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        
+        <div class="dropdown">
+            <a href="#">Select Device ▼</a>
+            <div id="device-dropdown" class="dropdown-content"></div>
+        </div>
+        
+        <button class="addDeviceBtn" id="addDeviceBtn">Add Device</button>
+<button class="removeDeviceBtn" id="removeDeviceBtn">Remove Device</button>
+
+    </div>
+
+    <!-- Modal for adding a device (hidden by default) -->
+    <div id="deviceModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2>Add New Device</h2>
+            <form id="deviceForm">
+                <label for="deviceName">Device Name:</label>
+                <input type="text" id="deviceName" required>
+                
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for removing device (hidden by default) -->
+<div id="removeDeviceModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" id="closeRemoveModal">×</span>
+        <h2>Remove Device</h2>
+        <p>Select a device to remove:</p>
+        <ul id="deviceList"></ul>
+        <button id="confirmRemoveDevice">Remove Selected Device</button>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
