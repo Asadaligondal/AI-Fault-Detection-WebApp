@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test Client</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #status { font-weight: bold; }
+        #dataBox { 
+            height: 300px; 
+            border: 1px solid #ccc; 
+            padding: 10px; 
+            overflow-y: scroll;
+            margin-top: 10px;
+        }
+        .controls {
+            margin: 15px 0;
+        }
+        button {
+            padding: 8px 15px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Raspberry Pi Sensor Data Test Client</h1>
+    
+    <div>
+        <label for="serverAddress">Server Address:</label>
+        <input type="text" id="serverAddress" value="http://192.168.1.35:5000" style="width: 250px;">
+        <button onclick="connectToServer()">Connect</button>
+        <button onclick="disconnectFromServer()">Disconnect</button>
+    </div>
+    
+    <div class="controls">
+        <button onclick="startStream()">Start Stream</button>
+        <button onclick="stopStream()">Stop Stream</button>
+        <button onclick="clearData()">Clear Data</button>
+    </div>
+    
+    <div>Connection status: <span id="status">Disconnected</span></div>
+    
+    <h3>Incoming Data:</h3>
+    <div id="dataBox"></div>
+    
+    <script>
+        let socket = null;
+        let dataCount = 0;
+        
+        function connectToServer() {
+            const serverUrl = document.getElementById('serverAddress').value;
+            
+            if (socket) {
+                socket.disconnect();
+            }
+            
+            // Update status
+            document.getElementById('status').textContent = 'Connecting...';
+            document.getElementById('status').style.color = 'orange';
+            
+            // Connect to server
+            try {
+                socket = io(serverUrl);
+                
+                // Connection event handlers
+                socket.on('connect', function() {
+                    document.getElementById('status').textContent = 'Connected';
+                    document.getElementById('status').style.color = 'green';
+                    addLogMessage('Connected to server');
+                });
+                
+                socket.on('disconnect', function() {
+                    document.getElementById('status').textContent = 'Disconnected';
+                    document.getElementById('status').style.color = 'red';
+                    addLogMessage('Disconnected from server');
+                });
+                
+                socket.on('connect_error', function(error) {
+                    document.getElementById('status').textContent = 'Connection Error';
+                    document.getElementById('status').style.color = 'red';
+                    addLogMessage('Connection Error: ' + error);
+                });
+                
+                // Data event handler
+                socket.on('sensor_data', function(data) {
+                    dataCount++;
+                    if (dataCount <= 100) { // Limit displayed messages to avoid browser slowdown
+                        addLogMessage(`Received: Timestamp=${data.timestamp.toFixed(3)}, Voltage=${data.voltage.toFixed(6)}V`);
+                    } else if (dataCount === 101) {
+                        addLogMessage('Too many messages - showing only statistics now...');
+                    }
+                    
+                    // Update every 10 messages after the limit
+                    if (dataCount > 100 && dataCount % 10 === 0) {
+                        addLogMessage(`Still receiving data: ${dataCount} messages so far. Last value: ${data.voltage.toFixed(6)}V`);
+                    }
+                });
+                
+                // Status event handler
+                socket.on('status', function(data) {
+                    addLogMessage('Server status: ' + data.status);
+                });
+                
+            } catch (error) {
+                addLogMessage('Error creating socket: ' + error);
+            }
+        }
+        
+        function disconnectFromServer() {
+            if (socket) {
+                socket.disconnect();
+                socket = null;
+            }
+        }
+        
+        function startStream() {
+            if (socket && socket.connected) {
+                socket.emit('start_stream');
+                addLogMessage('Requesting to start data stream');
+            } else {
+                addLogMessage('Not connected to server');
+            }
+        }
+        
+        function stopStream() {
+            if (socket && socket.connected) {
+                socket.emit('stop_stream');
+                addLogMessage('Requesting to stop data stream');
+            } else {
+                addLogMessage('Not connected to server');
+            }
+        }
+        
+        function clearData() {
+            document.getElementById('dataBox').innerHTML = '';
+            dataCount = 0;
+        }
+        
+        function addLogMessage(message) {
+            const dataBox = document.getElementById('dataBox');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+            dataBox.appendChild(messageElement);
+            
+            // Auto-scroll to bottom
+            dataBox.scrollTop = dataBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
