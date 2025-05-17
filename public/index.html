@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Condition Monitoring</title>
+    <link rel="stylesheet" href="hoome.css">
+    <!-- Add socket.io client library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+</head>
+<body>
+    <script>
+        const tokken = localStorage.getItem('token');
+        if(!tokken){
+            window.location.href = '/signup.html';
+        }
+        else {
+            fetch('/api/protected/dashboard', {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${tokken}` }
+            })
+        .then(res => {
+            if (res.status === 401){
+                alert('unauthorized');
+                window.location.href = "/signup.html";
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            window.location.href = "/signup.html";
+
+        });
+        
+    }
+
+    // gona logout here
+    
+
+    </script>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="#" class="nav-link analytics-btn" id="analyticsBtn">
+            <span class="btn-text">Analytics</span>
+            <span class="btn-icon">📊</span>
+        </a>
+        <a href="#" class="nav-link accel-data-btn" id="accelDataBtn">
+            <span class="btn-text">Accelerometer Data</span>
+            <span class="btn-icon">📈</span>
+        </a>
+        <button class="log-out" id="log-out">Logout</button>
+    </div>
+
+    <!-- Component Cards Container (initially hidden) -->
+    <div id="componentsContainer" class="components-container">
+        <h2 class="section-title">System Components Status</h2>
+        <div class="card-container">
+            <div class="component-card" id="motorCard">
+                <div class="card-icon">⚙️</div>
+                <h3>Motor</h3>
+                <div class="status-indicator">
+                    <div class="status-badge normal">Normal</div>
+                </div>
+                <div class="health-meter">
+                    <div class="meter-fill" style="width: 90%;"></div>
+                </div>
+                <div class="health-percentage">90%</div>
+            </div>
+            
+            <div class="component-card" id="pulleyCard">
+                <div class="card-icon">🔄</div>
+                <h3>Pulley</h3>
+                <div class="status-indicator">
+                    <div class="status-badge normal">Normal</div>
+                </div>
+                <div class="health-meter">
+                    <div class="meter-fill" style="width: 85%;"></div>
+                </div>
+                <div class="health-percentage">85%</div>
+            </div>
+            
+            <div class="component-card" id="beltCard">
+                <div class="card-icon">➰</div>
+                <h3>Belt</h3>
+                <div class="status-indicator">
+                    <div class="status-badge warning">Warning</div>
+                </div>
+                <div class="health-meter">
+                    <div class="meter-fill warning" style="width: 60%;"></div>
+                </div>
+                <div class="health-percentage">60%</div>
+            </div>
+            
+            <div class="component-card" id="bearingCard">
+                <div class="card-icon">⚪</div>
+                <h3>Bearing</h3>
+                <div class="status-indicator">
+                    <div class="status-badge normal">Normal</div>
+                </div>
+                <div class="health-meter">
+                    <div class="meter-fill" style="width: 95%;"></div>
+                </div>
+                <div class="health-percentage">95%</div>
+            </div>
+            
+            <div class="component-card" id="gearCard">
+                <div class="card-icon">⚙️</div>
+                <h3>Gear</h3>
+                <div class="status-indicator">
+                    <div class="status-badge faulty">Faulty</div>
+                </div>
+                <div class="health-meter">
+                    <div class="meter-fill faulty" style="width: 35%;"></div>
+                </div>
+                <div class="health-percentage">35%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accelerometer Data Container (initially hidden) -->
+    <div id="accelDataContainer" class="accel-data-container" style="display: none;">
+        <h2 class="section-title">Real-time Accelerometer Data</h2>
+        
+        <!-- Add connection control section -->
+        <div class="connection-controls">
+            <input type="text" id="serverAddress" value="http://192.168.1.35:5000" 
+                   placeholder="Server Address (e.g., http://192.168.1.35:5000)" class="server-input">
+            <button id="connectBtn" class="control-btn connect-btn">Connect</button>
+            <button id="disconnectBtn" class="control-btn disconnect-btn">Disconnect</button>
+            <span id="connectionStatus" class="connection-status">Disconnected</span>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="accelChart"></canvas>
+        </div>
+        
+        <div class="data-controls">
+            <button id="pauseBtn" class="control-btn">Pause</button>
+            <button id="resumeBtn" class="control-btn">Resume</button>
+            <button id="clearBtn" class="control-btn">Clear</button>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="script.js"></script>
+    <script src="accelerometer.js"></script>
+    <script>
+        const logoutBtn = document.getElementById('log-out');
+
+    logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('token');  // clear JWT from browser
+        window.location.href = '/signup.html';  // redirect to signup/login
+    });
+    </script>
+</body>
+</html>
